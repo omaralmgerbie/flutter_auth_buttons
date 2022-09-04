@@ -42,36 +42,36 @@ class ButtonContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Stack(
       key: key,
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      alignment: Alignment.center,
       textDirection: rtl ? TextDirection.rtl : null,
       children: <Widget>[
-        Container(
-          padding: (style!.buttonType == AuthButtonType.secondary)
-              ? const EdgeInsets.all(5.0)
-              : null,
-          decoration: BoxDecoration(
-            color: style!.iconBackground,
-            borderRadius: BorderRadius.circular(style!.borderRadius ?? 0.0),
+        Align(
+          alignment: rtl ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: style!.separator ?? 0),
+            padding: (style!.buttonType == AuthButtonType.secondary)
+                ? const EdgeInsets.all(5.0)
+                : null,
+            decoration: BoxDecoration(
+              color: style!.iconBackground,
+              borderRadius: BorderRadius.circular(style!.borderRadius ?? 0.0),
+            ),
+            child: isLoading
+                ? SizedBox(
+                    width: style!.iconSize,
+                    height: style!.iconSize,
+                    child: CircularProgressIndicator(
+                      backgroundColor: style!.progressIndicatorColor,
+                      strokeWidth: style!.progressIndicatorStrokeWidth ?? 4.0,
+                      valueColor: AlwaysStoppedAnimation<Color?>(
+                          style!.progressIndicatorValueColor),
+                      value: style!.progressIndicatorValue,
+                    ),
+                  )
+                : authIcon,
           ),
-          child: isLoading
-              ? SizedBox(
-                  width: style!.iconSize,
-                  height: style!.iconSize,
-                  child: CircularProgressIndicator(
-                    backgroundColor: style!.progressIndicatorColor,
-                    strokeWidth: style!.progressIndicatorStrokeWidth ?? 4.0,
-                    valueColor: AlwaysStoppedAnimation<Color?>(
-                        style!.progressIndicatorValueColor),
-                    value: style!.progressIndicatorValue,
-                  ),
-                )
-              : authIcon,
-        ),
-        SizedBox(
-          width: style!.separator,
         ),
         Text(
           text,
